@@ -109,11 +109,10 @@ namespace SharpNotesReader
                                 Console.WriteLine($"|-> Content Length: {contentLength} bytes");
 
                                 byte encoding = reader.ReadByte();
-                                Console.WriteLine($"|-> Encoding: 0x{encoding:X2}");
+                                // Console.WriteLine($"|-> Encoding: 0x{encoding:X2}");
 
                                 byte carriageReturnType = reader.ReadByte();
-                                Console.WriteLine($"|-> Carriage Return Type: 0x{carriageReturnType:X2}");
-
+                                
                                 ulong timestamp = ReadULEB128(reader);
                                 DateTime dateTime = DateTime.FromFileTime((long)timestamp);
                                 Console.WriteLine($"|-> File time: {dateTime:yyyy-MM-dd HH:mm:ss}");
