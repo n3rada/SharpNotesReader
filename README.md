@@ -12,7 +12,7 @@ With a bit of trickery and a few lines of code, you can look into the stored not
 ## Build Instruction
 Open the solution (`.sln`) file with `Visual Studio`, and build the solution (`F7`). Executable will be located at `SharpNotesReader\bin\Release\SharpNotesReader.exe`. 
 
-## Why `C#`?
+## In-Memory
 Since disk is as "floor is lava", the binaries produced using `C#` are, by their inherent design, _de facto_ in-memory executables. This characteristic makes them highly versatile and powerful for stealthy execution without touching the disk.
 
 ## TODO
