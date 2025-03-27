@@ -15,5 +15,3 @@ Open the solution (`.sln`) file with `Visual Studio`, and build the solution (`F
 ## In-Memory
 Since disk is as "floor is lava", the binaries produced using `C#` are, by their inherent design, _de facto_ in-memory executables. This characteristic makes them highly versatile and powerful for stealthy execution without touching the disk.
 
-## TODO
-The only remaining enhancement for `SharpNotesReader` is support for reading active unsaved chunks in real-time. Currently, the tool requires Notepad to be closed before it can retrieve "proper" notes from the binaries files.
