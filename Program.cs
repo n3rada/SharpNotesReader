@@ -114,6 +114,12 @@ namespace SharpNotesReader
                                 byte carriageReturnType = reader.ReadByte();
                                 
                                 ulong timestamp = ReadULEB128(reader);
+                                if (timestamp == 0)
+                                {
+                                    Console.WriteLine("|-> Status: File was opened but not edited. Skipping further parsing.");
+                                    continue;
+                                }
+                                
                                 DateTime dateTime = DateTime.FromFileTime((long)timestamp);
                                 Console.WriteLine($"|-> File time: {dateTime:yyyy-MM-dd HH:mm:ss}");
 
