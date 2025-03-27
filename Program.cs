@@ -109,7 +109,7 @@ namespace SharpNotesReader
                                 Console.WriteLine($"|-> Content Length: {contentLength} bytes");
 
                                 byte encoding = reader.ReadByte();
-                                // Console.WriteLine($"|-> Encoding: 0x{encoding:X2}");
+                                Console.WriteLine($"|-> Encoding: 0x{encoding:X2} ({GetEncodingName(encoding)})");
 
                                 byte carriageReturnType = reader.ReadByte();
                                 
@@ -204,6 +204,16 @@ namespace SharpNotesReader
             while (more);
 
             return value;
+        }
+
+        private static string GetEncodingName(byte code)
+        {
+            if (code == 0x01) return "ANSI";
+            if (code == 0x02) return "UTF-16LE";
+            if (code == 0x03) return "UTF-16BE";
+            if (code == 0x04) return "UTF-8 with BOM";
+            if (code == 0x05) return "UTF-8";
+            return "Unknown";
         }
 
     }
