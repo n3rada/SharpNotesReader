@@ -173,43 +173,52 @@ namespace SharpNotesReader
         }
 
         /// <summary>
-        /// Reads a uLEB128 encoded ulong from the binary stream.
-        /// This is a variable-length encoding, you can't know in advance how many bytes each ReadULEB128 call consumes.
+        /// Reads an unsigned LEB128 (ULEB128) encoded 64-bit integer from the given BinaryReader.
+        /// This encoding is variable-length and efficient for small values.
         /// </summary>
         /// <param name="reader">The binary reader to read from.</param>
-        /// <returns>The decoded unsigned ulong value.</returns>
-        /// <exception cref="EndOfStreamException">Thrown if the end of the stream is reached unexpectedly.</exception>
+        /// <returns>The decoded ulong value.</returns>
+        /// <exception cref="FormatException">Thrown if the value exceeds 64 bits.</exception>
+        /// <exception cref="EndOfStreamException">Thrown if the stream ends unexpectedly during decoding.</exception>
         static ulong ReadULEB128(BinaryReader reader)
         {
-            ulong value = 0;
-            int shift = 0;
-            bool more;
-
-            do
+            ulong result = 0; // Final value to be constructed
+            int shift = 0;    // Bit shift amount (increasing by 7 per byte)
+        
+            while (true)
             {
+                // Sanity check: can't shift more than 64 bits into a ulong
                 if (shift >= 64)
                 {
                     throw new FormatException("ULEB128 sequence is too long for a 64-bit integer.");
                 }
-
-                // Read the next byte
-                byte next = reader.ReadByte();
-
-                // Get the next chunk of data, mask the highest bit as it's used to indicate continuation
-                ulong chunk = (ulong)(next & 0x7F);
-
-                // Combine this chunk with the accumulated value
-                value |= chunk << shift;
-
-                // Check if there's more data (if the highest bit is set)
-                more = (next & 0x80) != 0;
-
-                // Shift to process the next chunk
+        
+                // Ensure we don't read past the end of the stream
+                if (reader.BaseStream.Position >= reader.BaseStream.Length)
+                {
+                    throw new EndOfStreamException("Unexpected end of stream while reading ULEB128.");
+                }
+        
+                // Read next byte from the stream
+                byte b = reader.ReadByte();
+        
+                // Mask off the high bit (continuation flag), use lower 7 bits as part of the value
+                ulong chunk = (ulong)(b & 0x7F);
+        
+                // Combine the chunk into the result, shifted to the appropriate bit position
+                result |= chunk << shift;
+        
+                // If the high bit is not set, this was the final byte of the value
+                if ((b & 0x80) == 0)
+                {
+                    break;
+                }
+        
+                // Otherwise, prepare to shift further for the next byte
                 shift += 7;
             }
-            while (more);
-
-            return value;
+        
+            return result;
         }
 
         private static string GetEncodingName(byte code)
