@@ -1,5 +1,5 @@
 # SharpNotesReader
-`SharpNotesReader` is a tool designed to **extract both unsaved notes from Windows 11's Notepad** (`Notepad.exe`) session files. This feature allows quick-typed notes to persist even after the application is closed and reopened later. This tool lets you retrieve and read those unsaved files, providing insight into the hidden "`TabState`" files Notepad uses.
+`SharpNotesReader` is a tool designed to **extract unsaved notes from Windows 11's Notepad** (`Notepad.exe`) session files. This feature allows quick-typed notes to persist even after the application is closed and reopened later. This tool lets you retrieve and read those unsaved files, providing insight into the hidden "`TabState`" files Notepad uses.
 
 Many users rely on Notepad for tasks like quickly jotting down passwords or short notes:
 
